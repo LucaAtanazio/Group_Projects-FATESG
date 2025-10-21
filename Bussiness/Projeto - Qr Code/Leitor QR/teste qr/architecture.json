@@ -1,0 +1,57 @@
+{
+  "project_name": "QR Fiscal Receipt Reader",
+  "version": "1.0.0",
+  "description": "Sistema de leitura de QR Codes de cupons fiscais em tempo real com extração de Chave de Acesso (44 dígitos)",
+  "architecture": {
+    "frontend": "Streamlit (interface web interativa)",
+    "backend": "Python 3.10+ com processamento de imagem",
+    "storage": "CSV primário (fiscal_receipts.csv) com opção SQLite",
+    "qr_processing": "pyzbar + OpenCV + PIL"
+  },
+  "libraries": {
+    "core": ["streamlit", "opencv-python", "pyzbar", "Pillow"],
+    "data": ["pandas"],
+    "testing": ["pytest", "pytest-mock"],
+    "optional": ["qrcode"]
+  },
+  "modules": {
+    "app.py": "Interface Streamlit principal com câmera e upload",
+    "utils/qr_utils.py": "Funções de extração e validação de chave de acesso",
+    "utils/storage.py": "Persistência em CSV com deduplicação",
+    "tests/": "Suite de testes unitários e de integração"
+  },
+  "test_plan": {
+    "unit_tests": [
+      "test_extract_access_key_from_digits",
+      "test_extract_from_url_parameter",
+      "test_is_valid_access_key",
+      "test_find_all_access_keys",
+      "test_invalid_inputs"
+    ],
+    "integration_tests": ["test_qr_image_processing", "test_csv_storage_and_dedup", "test_multiple_qr_codes"],
+    "fixtures": [
+      "QR com 44 dígitos puros",
+      "QR com URL SEFAZ (parâmetro p=)",
+      "QR com múltiplos parâmetros",
+      "QR inválido"
+    ]
+  },
+  "execution_plan": [
+    "1. Criar estrutura de diretórios e arquivos base",
+    "2. Implementar utils/qr_utils.py com regex e validação",
+    "3. Implementar utils/storage.py com CSV e deduplicação",
+    "4. Desenvolver app.py com Streamlit (câmera + upload)",
+    "5. Adicionar throttling (200ms) e cache TTL (30s)",
+    "6. Criar fixtures de teste (imagens QR)",
+    "7. Implementar suite pytest completa",
+    "8. Documentar README.md e docs/report.md",
+    "9. Validar critérios de aceite",
+    "10. Gerar checklist final"
+  ],
+  "risks_and_mitigation": {
+    "camera_access": "Fallback para upload de imagem se câmera não disponível",
+    "qr_quality": "Múltiplas tentativas de decodificação com pré-processamento",
+    "performance": "Throttling de frames (200ms) para evitar sobrecarga",
+    "duplicates": "Cache em memória (30s) + verificação em CSV"
+  }
+}

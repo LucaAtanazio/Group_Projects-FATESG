@@ -14,9 +14,8 @@ import socket
 CSV_FILE = "fiscal_receipts.csv"
 CSV_COLUMNS = [
     "access_key",
-    "raw_data",
-    "source",
-    "timestamp"
+    "timestamp",
+    "source"
 ]
 
 def get_device_id() -> str:
@@ -47,48 +46,28 @@ def is_duplicate(access_key: str) -> bool:
     
     try:
         df = pd.read_csv(CSV_FILE)
+        if 'access_key' not in df.columns:
+            return False
         return access_key in df['access_key'].values
     except Exception as e:
         print(f"Erro ao verificar duplicata: {e}")
         return False
 
-def save_receipt(
-    access_key: str,
-    raw_data: str,
-    source: str = "camera"
-) -> bool:
-    """
-    Salva um cupom fiscal no CSV
-    
-    Args:
-        access_key: Chave de acesso de 44 dígitos
-        raw_data: Dados brutos do QR code
-        source: Origem da leitura (camera ou upload)
-        
-    Returns:
-        True se salvou com sucesso, False caso contrário
-    """
+def save_receipt(access_key: str, raw_data: str, source: str = "camera") -> bool:
     initialize_csv()
-    
     try:
-        # Verificar duplicata
         if is_duplicate(access_key):
             return False
-        
-        row = {
+
+        df = pd.read_csv(CSV_FILE)
+        new_row = pd.DataFrame([{
             "access_key": access_key,
-            "raw_data": raw_data[:500],  # Limitar tamanho
-            "source": source,
-            "timestamp": datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        }
-        
-        # Salvar no CSV
-        with open(CSV_FILE, 'a', newline='', encoding='utf-8') as f:
-            writer = csv.DictWriter(f, fieldnames=CSV_COLUMNS)
-            writer.writerow(row)
-        
+            "timestamp": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+            "source": source
+        }])
+        df = pd.concat([df, new_row], ignore_index=True)
+        df.to_csv(CSV_FILE, index=False, encoding='utf-8')
         return True
-    
     except Exception as e:
         print(f"Erro ao salvar cupom: {e}")
         return False

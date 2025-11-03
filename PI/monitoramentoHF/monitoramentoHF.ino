@@ -16,7 +16,7 @@ DHT dht(DHTPIN, DHTTYPE);
 #define MQ3_PIN 34  // Entrada analógica
 
 // --- VARIÁVEIS ---
-String fruta = "banana";  // Altere para "maca" ou "tomate" conforme o lote
+String fruta = "banana"; 
 
 void setup() {
   Serial.begin(115200);

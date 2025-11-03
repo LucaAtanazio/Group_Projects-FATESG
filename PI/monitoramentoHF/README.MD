@@ -93,5 +93,5 @@ Este projeto foi desenvolvido pelos aludas do curso de *Inteligência Artificial
 * [**@eopabro** - Pablo Henrique](https://github.com/eopabro): **Desenvolvimento e Implementação do Código Embarcado** (`monitoramentoHF.ino`), **Elaboração Conceitual do Projeto**, e **Pesquisa de Campo**.
 * [**@LucaAtanazio** - Luca Atanazio](https://github.com/LucaAtanazio): **Arquitetura e Apresentação do Projeto**, **Gerenciamento de Recursos e Aquisição de Hardware**, **Elaboração Conceitual do Projeto**, e **Pesquisa de Campo**.
 
-**Licença:** [FACULDADE DE TEC SENAI DE DESENV.GERENCIAL / Uso Acadêmico]
+**Licença:** MIT License [FACULDADE DE TEC SENAI DE DESENV.GERENCIAL / Uso Acadêmico]
 

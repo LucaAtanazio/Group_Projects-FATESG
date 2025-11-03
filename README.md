@@ -8,5 +8,3 @@ https://github.com/LucaAtanazio
 Pablo Henrique
 https://github.com/eopabro
 
-Lucas Faria
-https://github.com/lucasfaria93

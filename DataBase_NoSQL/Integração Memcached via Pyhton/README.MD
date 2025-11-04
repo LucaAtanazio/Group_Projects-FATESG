@@ -1,8 +1,5 @@
 # Dashboard de Controle: Simulação Avançada de TTL (Mocking Time)
-
 Simulação de Cache com TTL para Otimização de Consultas
-
-**Equipe:** Luca Atanazio - Lucas Faria - Pablo Henrique
 
 ---
 
@@ -67,3 +64,14 @@ Este sistema simula o gerenciamento de dados de produtos perecíveis, onde a lat
 * **Itens Perecíveis (TTL Curto/Médio):** O estoque de alface tem um TTL de 7 dias, exigindo uma atualização mais frequente para refletir a alta rotatividade ou o descarte.
 
 O uso deste dashboard valida a eficácia do cache para a **otimização de consultas**, reduzindo a carga no banco de dados principal e garantindo que o cliente sempre receba a informação mais **confiável** e atualizada, seja pela expiração automática (TTL) ou pela invalidação manual (DELETE).
+
+-----------------------------------
+## Créditos:
+### Autores
+* [**@LucaAtanazio** - Luca Atanazio](https://github.com/LucaAtanazio) 
+* [**@eopabro** - Pablo Henrique](https://github.com/eopabro) 
+
+### Professor
+*  [**@Willgnner-Santos** - Willgnner Ferreira Santos](https://github.com/Willgnner-Santos) - Banco de Dados Não-Relacional
+  
+> **Licença:** MIT License [FACULDADE DE TEC SENAI DE DESENV.GERENCIAL / Uso Acadêmico]

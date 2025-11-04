@@ -7,7 +7,7 @@ Este projeto consiste em um pipeline de **Big Data** para processamento e análi
 ### Autores
 * [**@eopabro** - Pablo Henrique](https://github.com/eopabro) 
 * [**@LucaAtanazio** - Luca Atanazio](https://github.com/LucaAtanazio) 
-> Professor Ujeverson Tavares Sampaio - BUSINESS INTELLIGENCE
+> Professor  Willgnner Ferreira Santo - BIG DATA
 
 ## 1. Arquitetura e Fluxo de Dados
 O projeto implementa uma arquitetura robusta e híbrida para lidar com o volume massivo de dados (28GB), focando na redução e padronização para análise de alta qualidade.

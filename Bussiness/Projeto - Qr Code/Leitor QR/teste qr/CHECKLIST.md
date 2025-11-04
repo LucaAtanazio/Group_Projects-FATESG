@@ -1,4 +1,4 @@
-# ✅ Checklist de Aceitação - QR Fiscal Reader
+# Checklist de Aceitação - QR Fiscal Reader
 
 ## Critérios de Aceite Testáveis
 
@@ -15,8 +15,8 @@
 
 - [ ] **CA-02**: Webcam stream é exibido corretamente
   - **Passos:**
-    1. Clicar na aba "📷 Câmera"
-    2. Clicar em "▶️ Iniciar Câmera"
+    1. Clicar na aba " Câmera"
+    2. Clicar em " Iniciar Câmera"
     3. Verificar se o vídeo da webcam aparece
   - **Resultado Esperado:** Stream de vídeo em tempo real
 
@@ -25,15 +25,15 @@
     1. Iniciar câmera
     2. Posicionar QR Code de teste na frente da câmera
     3. Aguardar 1-2 segundos
-  - **Resultado Esperado:** Mensagem "✅ Cupom salvo com sucesso!"
+  - **Resultado Esperado:** Mensagem " Cupom salvo com sucesso!"
 
 ### 3. Extração de Chave de Acesso
 
 - [ ] **CA-04**: Extração de 44 dígitos puros
   - **Passos:**
     1. Usar fixture: `tests/fixtures/qr_pure_digits.png`
-    2. Fazer upload na aba "📤 Upload"
-    3. Clicar em "🔍 Processar QR Code"
+    2. Fazer upload na aba " Upload"
+    3. Clicar em " Processar QR Code"
   - **Resultado Esperado:** Chave extraída: `12345678901234567890123456789012345678901234`
 
 - [ ] **CA-05**: Extração de URL SEFAZ com parâmetro p=
@@ -75,7 +75,7 @@
   - **Passos:**
     1. Processar um QR Code
     2. Imediatamente processar o mesmo QR Code novamente
-  - **Resultado Esperado:** Mensagem "⚠️ Cupom já lido recentemente (últimos 30s)"
+  - **Resultado Esperado:** Mensagem " Cupom já lido recentemente (últimos 30s)"
 
 - [ ] **CA-10**: Duplicata não é salva no CSV
   - **Passos:**
@@ -89,13 +89,13 @@
     1. Processar QR Code
     2. Aguardar 35 segundos
     3. Processar mesmo QR Code
-  - **Resultado Esperado:** Mensagem "⚠️ Cupom já lido anteriormente"
+  - **Resultado Esperado:** Mensagem " Cupom já lido anteriormente"
 
 ### 6. Upload de Imagem
 
 - [ ] **CA-12**: Upload de imagem funciona
   - **Passos:**
-    1. Ir para aba "📤 Upload"
+    1. Ir para aba " Upload"
     2. Clicar em "Browse files"
     3. Selecionar `tests/fixtures/qr_pure_digits.png`
   - **Resultado Esperado:** Imagem é exibida
@@ -110,14 +110,14 @@
   - **Passos:**
     1. Fazer upload de imagem sem QR Code
     2. Clicar em processar
-  - **Resultado Esperado:** Mensagem "❌ Nenhum QR Code encontrado na imagem"
+  - **Resultado Esperado:** Mensagem " Nenhum QR Code encontrado na imagem"
 
 ### 7. Visualização de Dados
 
 - [ ] **CA-15**: Aba "Dados" mostra cupons registrados
   - **Passos:**
     1. Processar 3 QR Codes diferentes
-    2. Ir para aba "📊 Dados"
+    2. Ir para aba " Dados"
   - **Resultado Esperado:** Tabela com 3 registros
 
 - [ ] **CA-16**: Estatísticas são calculadas corretamente
@@ -131,7 +131,7 @@
 
 - [ ] **CA-17**: Download de CSV funciona
   - **Passos:**
-    1. Clicar em "📥 Baixar CSV"
+    1. Clicar em " Baixar CSV"
     2. Verificar arquivo baixado
   - **Resultado Esperado:** Arquivo CSV válido com todos os dados
 
@@ -141,7 +141,7 @@
   - **Passos:**
     1. Usar fixture: `tests/fixtures/qr_invalid_short.png`
     2. Processar
-  - **Resultado Esperado:** Mensagem "❌ Nenhuma chave de acesso válida encontrada"
+  - **Resultado Esperado:** Mensagem " Nenhuma chave de acesso válida encontrada"
 
 - [ ] **CA-19**: QR com caracteres não numéricos é rejeitado
   - **Passos:**

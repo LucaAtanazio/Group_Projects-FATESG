@@ -1,8 +1,8 @@
-# 📱 Leitor de QR Code Fiscal
+# Leitor de QR Code Fiscal
 
 Aplicação web desenvolvida com Python e Streamlit para leitura e extração de chaves de acesso de cupons fiscais através de QR codes.
 
-## 🚀 Funcionalidades
+## Funcionalidades
 
 - ✅ Captura de QR codes através de câmera ao vivo ou upload de imagem
 - ✅ Extração automática de chaves de acesso de 44 dígitos
@@ -12,12 +12,12 @@ Aplicação web desenvolvida com Python e Streamlit para leitura e extração de
 - ✅ Interface intuitiva em português
 - ✅ Download de dados em CSV
 
-## 📋 Requisitos
+## Requisitos
 
 - Python 3.8 ou superior
 - Bibliotecas listadas em `requirements.txt`
 
-## 🔧 Instalação
+## Instalação
 
 1. Instale as dependências:
 ```bash

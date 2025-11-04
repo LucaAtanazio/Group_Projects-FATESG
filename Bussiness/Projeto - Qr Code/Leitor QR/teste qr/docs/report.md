@@ -129,23 +129,23 @@ Os dados coletados servirão como base para:
 **Decisão:** Streamlit
 
 **Justificativa:**
-- ✅ Desenvolvimento rápido de protótipos
-- ✅ Interface interativa sem JavaScript
-- ✅ Ideal para aplicações de dados/BI
-- ✅ Menor curva de aprendizado
-- ❌ Menos controle sobre UI customizada
+-  Desenvolvimento rápido de protótipos
+-  Interface interativa sem JavaScript
+-  Ideal para aplicações de dados/BI
+-  Menor curva de aprendizado
+-  Menos controle sobre UI customizada
 
 #### CSV vs SQLite vs PostgreSQL
 
 **Decisão:** CSV como primário
 
 **Justificativa:**
-- ✅ Simplicidade de implementação
-- ✅ Fácil exportação e análise externa
-- ✅ Compatível com Excel, Pandas, Power BI
-- ✅ Sem necessidade de servidor de banco
-- ❌ Performance limitada para grandes volumes
-- 💡 SQLite pode ser adicionado posteriormente
+-  Simplicidade de implementação
+-  Fácil exportação e análise externa
+-  Compatível com Excel, Pandas, Power BI
+-  Sem necessidade de servidor de banco
+-  Performance limitada para grandes volumes
+-  SQLite pode ser adicionado posteriormente
 
 ### 3.2 Algoritmo de Extração
 
@@ -289,17 +289,17 @@ TOTAL                     147      8    95%
 ### 6.1 Dados Coletados
 
 **Informações Armazenadas:**
-- ✅ Chave de acesso (44 dígitos) - Dado público
-- ✅ Timestamp da leitura
-- ✅ Dados brutos do QR Code (limitado a 500 caracteres)
-- ✅ Origem (câmera ou upload)
-- ✅ Device ID (hostname)
+-  Chave de acesso (44 dígitos) - Dado público
+-  Timestamp da leitura
+-  Dados brutos do QR Code (limitado a 500 caracteres)
+-  Origem (câmera ou upload)
+-  Device ID (hostname)
 
 **Informações NÃO Armazenadas:**
-- ❌ Imagens da câmera (exceto se usuário solicitar)
-- ❌ Dados pessoais do consumidor
-- ❌ Valores de compra
-- ❌ Produtos adquiridos
+-  Imagens da câmera (exceto se usuário solicitar)
+-  Dados pessoais do consumidor
+-  Valores de compra
+-  Produtos adquiridos
 
 ### 6.2 Conformidade LGPD
 
@@ -345,13 +345,13 @@ TOTAL                     147      8    95%
 
 ### 8.1 Objetivos Alcançados
 
-✅ Sistema funcional de leitura de QR Codes em tempo real  
-✅ Extração confiável de chaves de acesso (44 dígitos)  
-✅ Prevenção eficaz de duplicatas  
-✅ Persistência estruturada em CSV  
-✅ Interface intuitiva e responsiva  
-✅ Cobertura de testes > 90%  
-✅ Documentação completa  
+* Sistema funcional de leitura de QR Codes em tempo real  
+* Extração confiável de chaves de acesso (44 dígitos)  
+* Prevenção eficaz de duplicatas  
+* Persistência estruturada em CSV  
+* Interface intuitiva e responsiva  
+* Cobertura de testes > 90%  
+* Documentação completa  
 
 ### 8.2 Aprendizados
 
@@ -399,7 +399,3 @@ Este projeto demonstra na prática:
 
 ---
 
-**Documento elaborado em:** 21 de Outubro de 2025  
-**Versão:** 1.0  
-**Autor:** Sistema de IA - v0 by Vercel  
-**Instituição:** Faculdade SENAI FATESG

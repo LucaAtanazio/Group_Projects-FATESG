@@ -7,7 +7,7 @@ Sistema de leitura de QR Codes de cupons fiscais em tempo real com extração au
 
 ---
 
-## 📋 Descrição
+##  Descrição
 
 Este sistema permite a leitura de QR Codes de cupons fiscais através de:
 - **Câmera em tempo real** - Leitura automática via webcam
@@ -17,7 +17,7 @@ O sistema extrai automaticamente a **Chave de Acesso** de 44 dígitos, evita dup
 
 ---
 
-## 🚀 Instalação
+##  Instalação
 
 ### Pré-requisitos
 
@@ -62,7 +62,7 @@ A aplicação abrirá automaticamente no navegador em `http://localhost:8501`
 
 ---
 
-## 📖 Como Usar
+##  Como Usar
 
 ### Modo Câmera
 
@@ -86,14 +86,14 @@ A aplicação abrirá automaticamente no navegador em `http://localhost:8501`
 
 ### Visualização de Dados
 
-1. Acesse a aba **"📊 Dados"**
+1. Acesse a aba **" Dados"**
 2. Visualize todos os cupons registrados
 3. Veja estatísticas (total, por câmera, por upload)
 4. Baixe os dados em CSV clicando em **"📥 Baixar CSV"**
 
 ---
 
-## 🗂️ Estrutura do Projeto
+##  Estrutura do Projeto
 
 \`\`\`
 qr-fiscal-reader/
@@ -118,7 +118,7 @@ qr-fiscal-reader/
 
 ---
 
-## 🧪 Testes
+##  Testes
 
 ### Executar Testes
 
@@ -144,7 +144,7 @@ Isso criará imagens QR em `tests/fixtures/` para diferentes cenários de teste.
 
 ---
 
-## 📊 Formato dos Dados
+##  Formato dos Dados
 
 Os dados são salvos em `fiscal_receipts.csv` com as seguintes colunas:
 
@@ -170,7 +170,7 @@ Os dados são salvos em `fiscal_receipts.csv` com as seguintes colunas:
 
 ---
 
-## ✅ Critérios de Aceite
+##  Critérios de Aceite
 
 - [x] `streamlit run app.py` exibe webcam stream
 - [x] Extração correta da chave 44-dígitos de QR de exemplo
@@ -181,7 +181,7 @@ Os dados são salvos em `fiscal_receipts.csv` com as seguintes colunas:
 
 ---
 
-## 🎓 Contexto Pedagógico
+##  Contexto Pedagógico
 
 Este projeto faz parte da **Situação de Aprendizagem "MERCADO EM NÚMEROS"** da disciplina de Business Intelligence na Faculdade SENAI FATESG.
 
@@ -199,7 +199,7 @@ Os dados coletados serão utilizados posteriormente para:
 
 ---
 
-## 🐛 Solução de Problemas
+##  Solução de Problemas
 
 ### Câmera não funciona
 
@@ -234,15 +234,14 @@ brew install zbar
 
 ---
 
-## 📝 Licença
-
-Este projeto foi desenvolvido para fins educacionais na Faculdade SENAI FATESG.
-
----
-
-## 👥 Autores
-
-Desenvolvido para a disciplina de Business Intelligence - SENAI FATESG
+## Créditos:
+### Autores
+* [**@eopabro** - Pablo Henrique](https://github.com/eopabro) 
+* [**@LucaAtanazio** - Luca Atanazio](https://github.com/LucaAtanazio) 
+### Professor
+*  **Prof. Ujeverson Tavares Sampaio** - BUSINESS INTELLIGENCE
+  
+> **Licença:** MIT License [FACULDADE DE TEC SENAI DE DESENV.GERENCIAL / Uso Acadêmico]
 
 ---
 
@@ -251,4 +250,3 @@ Desenvolvido para a disciplina de Business Intelligence - SENAI FATESG
 Para dúvidas ou problemas:
 1. Consulte a documentação em `docs/report.md`
 2. Verifique os testes em `tests/`
-3. Entre em contato com o professor da disciplina

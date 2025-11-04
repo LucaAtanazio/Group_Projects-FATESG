@@ -90,14 +90,14 @@ Antes de carregar o código no ESP32, as seguintes linhas devem ser atualizadas:
 
 Este projeto foi desenvolvido pelos aludas do curso de *Inteligência Artificial* do 2° semestre na *SENAI FATESG* como trabalho de conclusão das disciplinas *(Internet das coisas / Projeto de Extensão Integrador)*.
 
-* [**@eopabro** - Pablo Henrique](https://github.com/eopabro): **Desenvolvimento e Implementação do Código Embarcado** (`monitoramentoHF.ino`), **Elaboração Conceitual do Projeto**, e **Pesquisa de Campo**.
-* [**@LucaAtanazio** - Luca Atanazio](https://github.com/LucaAtanazio): **Arquitetura e Apresentação do Projeto**, **Gerenciamento de Recursos e Aquisição de Hardware**, **Elaboração Conceitual do Projeto**, e **Pesquisa de Campo**.
+* [@eopabro](https://github.com/eopabro) - Pablo Henrique: **Desenvolvimento e Implementação do Código Embarcado** (`monitoramentoHF.ino`), **Elaboração Conceitual do Projeto**, e **Pesquisa de Campo**.
+* [@LucaAtanazio](https://github.com/LucaAtanazio) - Luca Atanazio: **Arquitetura e Apresentação do Projeto**, **Gerenciamento de Recursos e Aquisição de Hardware**, **Elaboração Conceitual do Projeto**, e **Pesquisa de Campo**.
 ---
 ### **Orientação Acadêmica**
 
 O projeto foi concluído sob a direção dos professores:
-* Prof. Willgnner Ferreira Santos *(Projeto de Extensão Integrador)*
-* Prof. Alisson Rodrigues *(Internet da Coisas)*
+* [Prof. Willgnner Ferreira Santos](https://github.com/Willgnner-Santos) *(Projeto de Extensão Integrador)*
+* [Prof. Alisson Rodrigues](https://www.linkedin.com/in/alissonralves1/) *(Internet da Coisas)*
 
-**Licença:** MIT License [FACULDADE DE TEC SENAI DE DESENV.GERENCIAL / Uso Acadêmico]
+> **Licença:** MIT License [FACULDADE DE TEC SENAI DE DESENV.GERENCIAL / Uso Acadêmico]
 

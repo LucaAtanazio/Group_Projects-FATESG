@@ -1,14 +1,11 @@
-# ANÁLISE DE DADOS DE CRIPTOMOEDAS: PROJETO DE BIG DATA
+# ANÁLISE DE DADOS DE CRIPTOMOEDAS
+> PROJETO FINAL DE BIG DATA - 15/09/2025 - 13/10/2025
 <p align="center"> <img src="https://img.shields.io/badge/Tecnologia-PySpark%20%7C%20Pandas%20%7C%20PostgreSQL-306998?style=for-the-badge&logo=apachespark&logoColor=white&labelColor=282c34" /> </p>
 
 ## Visão Geral do Projeto
 Este projeto consiste em um pipeline de **Big Data** para processamento e análise de um grande volume de transações de criptomoedas da Binance. O objetivo principal é extrair insights valiosos sobre a **volatilidade**, a **agressividade de mercado** e a **correlação** entre diversas Altcoins e seus principais pares (*Bitcoin e Ethereum*).
 
-### Autores
-* [**@eopabro** - Pablo Henrique](https://github.com/eopabro) 
-* [**@LucaAtanazio** - Luca Atanazio](https://github.com/LucaAtanazio) 
-> Professor  Willgnner Ferreira Santo - BIG DATA
-
+------------------------------------------
 ## 1. Arquitetura e Fluxo de Dados
 O projeto implementa uma arquitetura robusta e híbrida para lidar com o volume massivo de dados (28GB), focando na redução e padronização para análise de alta qualidade.
 
@@ -75,8 +72,15 @@ A análise de dados limpos no PostgreSQL permitiu a geração de insights críti
 - **Visualização:** Gráfico de Linha (`agressividade BTC ETH.png`)
 - **Análise:** Estudo da `agressividade_liquida` (volume de compradores vs. vendedores) e sua influência na média de preços ETH/BTC.
 - **Conclusão:** Demonstra como o desequilíbrio na pressão de negociação afeta a direção de preço dos pares principais.
-
-
-
+-------------------------------------------------------------------
+## Créditos:
+### Autores
+* [**@eopabro** - Pablo Henrique](https://github.com/eopabro) 
+* [**@LucaAtanazio** - Luca Atanazio](https://github.com/LucaAtanazio) 
+### Professor
+*  [**@Willgnner-Santos** - Willgnner Ferreira Santos](https://github.com/Willgnner-Santos) - BIG DATA
+  
+> **Licença:** MIT License [FACULDADE DE TEC SENAI DE DESENV.GERENCIAL / Uso Acadêmico]
+  
 
 

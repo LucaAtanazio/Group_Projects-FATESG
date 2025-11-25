@@ -1,0 +1,7 @@
+streamlit
+opencv-python
+pyzbar
+selenium
+beautifulsoup4
+pandas
+Pillow

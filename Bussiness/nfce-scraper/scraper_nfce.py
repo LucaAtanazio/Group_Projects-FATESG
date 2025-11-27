@@ -1,182 +1,165 @@
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service as ChromeService
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
-from bs4 import BeautifulSoup
+# scraper_nfce.py
+
 import time
 import re
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from webdriver_manager.chrome import ChromeDriverManager
+from datetime import datetime
 
-try:
-    from webdriver_manager.chrome import ChromeDriverManager
-    USE_WDM = True
-except ImportError:
-    USE_WDM = False
-    print("AVISO: 'webdriver-manager' não instalado. Certifique-se de que o ChromeDriver está no PATH.")
+# --- Configuração do Selenium ---
 
-def inicializar_selenium():
-    """Inicializa o driver do Chrome em modo headless."""
+def iniciar_driver():
+    """Configura e inicia o WebDriver com opções headless."""
+    print("Iniciando WebDriver em modo Headless...")
+    
+    # 1. Configurações Headless para rodar sem interface gráfica
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--window-size=1920,1080")
+    # Simula um navegador comum para evitar bloqueios
+    chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
+    chrome_options.add_experimental_option("excludeSwitches", ["enable-logging"]) # Evita logs excessivos
+
+    # 2. Instala/Usa o driver correto
+    service = Service(ChromeDriverManager().install())
+    driver = webdriver.Chrome(service=service, options=chrome_options)
+    
+    return driver
+
+# --- Funções de Limpeza de Dados ---
+
+def limpar_valor(texto):
+    """Extrai e limpa valores numéricos de R$ X.XX."""
+    if not texto:
+        return 0.0
+    # Remove qualquer coisa que não seja dígito, vírgula ou ponto
+    valor_limpo = re.sub(r'[^\d,\.]', '', texto)
+    # Substitui vírgula por ponto para conversão float (padrão brasileiro -> americano)
+    valor_limpo = valor_limpo.replace('.', '').replace(',', '.')
     try:
-        chrome_options = Options()
-        chrome_options.add_argument("--headless")
-        chrome_options.add_argument("--no-sandbox")
-        chrome_options.add_argument("--disable-dev-shm-usage")
-        chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
-        
-        if USE_WDM:
-            service = ChromeService(ChromeDriverManager().install())
-            driver = webdriver.Chrome(service=service, options=chrome_options)
-        else:
-            driver = webdriver.Chrome(options=chrome_options)
-
-        return driver
-    except Exception as e:
-        print(f"Erro ao inicializar o Selenium: {e}")
-        return None
-
-def obter_texto_seguro(soup, seletor, tipo='css'):
-    """Tenta extrair texto com um seletor, retornando string vazia em caso de falha."""
-    try:
-        if tipo == 'css':
-            elemento = soup.select_one(seletor)
-        elif tipo == 'xpath':
-            return soup.select_one(seletor).get_text(strip=True) if soup.select_one(seletor) else ''
-        
-        return elemento.get_text(strip=True) if elemento else ''
-    except Exception:
-        return ''
-
-def formatar_valor(valor_str):
-    """Limpa e converte string de valor para float, ou retorna 0.0."""
-    try:
-        limpo = re.sub(r'[^\d,]', '', valor_str).replace(',', '.')
-        return float(limpo)
-    except:
+        return float(valor_limpo)
+    except ValueError:
         return 0.0
 
-def raspar_dados_nfce(url_nfce):
-    """
-    Acessa a URL da NFC-e, renderiza com Selenium e extrai os dados com BeautifulSoup.
+# --- Função Principal de Raspagem de Dados ---
 
+def raspar_dados_nfce(url_nfce: str) -> tuple[dict, list]:
+    """
+    Navega até a URL da NFC-e e raspa dados do cabeçalho e da lista de itens.
+    
     Args:
-        url_nfce (str): URL completa da NFC-e.
-
+        url_nfce: URL completa da NFC-e (do QR Code).
+        
     Returns:
-        tuple: (dados_nota, lista_itens) ou (None, None) em caso de falha.
+        Um tuple contendo: (dados_nota_dict, lista_itens).
     """
-    driver = inicializar_selenium()
-    if not driver:
-        return None, None
+    driver = None
+    dados_nota = {}
+    lista_itens = []
+    
+    # Define um tempo máximo de espera
+    MAX_WAIT = 15 
 
     try:
+        driver = iniciar_driver()
+        print(f"DEBUG: Navegando para: {url_nfce}")
         driver.get(url_nfce)
-
-        # 1. Aguardar o carregamento de um elemento chave (obrigatório)
-        # O div#conteudoPrincipal é um bom alvo.
-        WebDriverWait(driver, 20).until(
-            EC.presence_of_element_located((By.ID, "conteudoPrincipal"))
-        )
         
-        time.sleep(3) 
-
-        # 2. Obter o HTML completo e passar para o BeautifulSoup
-        html_content = driver.page_source
-        soup = BeautifulSoup(html_content, 'html.parser')
-
-        # --- Extração dos Dados Gerais ---
-        dados_nota = {}
-        
-        data_venda_hora_raw = obter_texto_seguro(soup, 'div.blocoAbaixo div.txtTit')
-        data_match = re.search(r'(\d{2}/\d{2}/\d{4})', data_venda_hora_raw)
-        hora_match = re.search(r'(\d{2}:\d{2}:\d{2})', data_venda_hora_raw)
-        
-        dados_nota['data_venda'] = data_match.group(1) if data_match else ''
-        dados_nota['hora_venda'] = hora_match.group(1) if hora_match else ''
-        
-        valor_total_raw = (
-            obter_texto_seguro(soup, 'span.txtValor') or 
-            obter_texto_seguro(soup, 'div.txtValorTotal') or
-            obter_texto_seguro(soup, '#totalGeral') or 
-            obter_texto_seguro(soup, 'div.valorTotal')
-        )
-        dados_nota['valor_total'] = formatar_valor(valor_total_raw)
-        
-        # Forma de Pagamento (pode estar em um div.txtObs, div.modalidade, etc.)
-        forma_pagamento_raw = (
-            obter_texto_seguro(soup, 'div.txtObs') or 
-            obter_texto_seguro(soup, 'div.modalidade')
-        )
-        forma_pagamento = 'Outros'
-        pag_options = ['Débito', 'Crédito', 'Dinheiro', 'Pix', 'Voucher', 'Cartão']
-        for pag in pag_options:
-            if pag.lower() in forma_pagamento_raw.lower():
-                forma_pagamento = pag
-                break
-        dados_nota['forma_pagamento'] = forma_pagamento
-
-        # --- Extração dos Itens ---
-        lista_itens = []
-        
-        # Seletor para a tabela de itens (Exemplo: tbody com a classe ui-datatable-data)
-        tabela_itens = soup.select('tbody.ui-datatable-data > tr')
-        
-        if not tabela_itens:
-            tabela_itens = soup.select('div.divItem') 
-
-        for linha in tabela_itens:
-            item = {}
+        # 1. Espera Condicional: Espera até que o elemento do Valor Total esteja visível
+        # Se este seletor estiver errado, a raspagem falhará aqui.
+        try:
+            WebDriverWait(driver, MAX_WAIT).until(
+                EC.visibility_of_element_located((By.CLASS_NAME, "txtValorTotal")) 
+            )
+            print("DEBUG: Página da NFC-e carregada com sucesso.")
+        except Exception:
+            print("ERRO CRÍTICO: Não foi possível carregar o elemento chave (txtValorTotal) dentro do tempo.")
+            # Salva screenshot para debug
+            driver.save_screenshot("erro_carregamento.png")
+            return None, None
             
-            # Nome do Produto (Geralmente div.txtTit ou div.txtTit2)
-            nome_produto = obter_texto_seguro(linha, 'div.txtTit') or obter_texto_seguro(linha, 'div.txtTit2')
-            
-            # Padrão 1: Seletor direto para as colunas na linha da tabela
-            quant_raw = obter_texto_seguro(linha, '.colunaQuant div.txtTit')
-            unit_raw = obter_texto_seguro(linha, '.colunaUnit div.txtTit')
-            total_raw = obter_texto_seguro(linha, '.colunaTotal div.txtTit')
-            
-            if not nome_produto:
-                continue 
-            if not quant_raw:
-                linha_texto = linha.get_text().strip()
-                valores_monetarios = re.findall(r'\d{1,3}(?:\.\d{3})*(?:,\d{2})', linha_texto)
-                
-                if not valores_monetarios:
-                    continue
-                
-                if len(valores_monetarios) >= 3:
-                    unit_raw = valores_monetarios[-2]
-                    total_raw = valores_monetarios[-1]
-                
-                quant_match = re.search(r'Qtd\.:\s*([\d,.]+)', linha_texto, re.I)
-                quant_raw = quant_match.group(1) if quant_match else '1,00'
+        # 2. Extração dos Dados do Cabeçalho (NOTA)
+        
+        # ATENÇÃO: VERIFIQUE E ADAPTE ESTES SELETORES PARA O SITE DA SEFAZ DO SEU ESTADO
+        
+        # Exemplo de extração de Valor Total e Data/Hora:
+        valor_total_text = driver.find_element(By.CLASS_NAME, "txtValorTotal").text
+        data_hora_text = driver.find_element(By.ID, "datEmi").text
+        
+        dados_nota['valor_total'] = limpar_valor(valor_total_text)
+        dados_nota['data_hora_nfce'] = data_hora_text # Formatação será feita no salvador_csv
+        
+        # 3. Extração da Lista de Itens
+        
+        # ATENÇÃO: O SELETOR DA TABELA DE ITENS É CRUCIAL AQUI
+        
+        # Este seletor assume que a tabela de itens tem o ID 'tabProdutos'
+        tabela_itens = driver.find_element(By.ID, "tabProdutos") 
+        
+        # Encontra todas as linhas da tabela (exceto o cabeçalho)
+        linhas_itens = tabela_itens.find_elements(By.TAG_NAME, "tr")[1:] 
 
-
-            item['produto'] = nome_produto
-            item['quantidade'] = formatar_valor(quant_raw)
-            item['preco_unitario'] = formatar_valor(unit_raw)
-            item['total_item'] = formatar_valor(total_raw)
+        print(f"DEBUG: Encontradas {len(linhas_itens)} linhas de itens.")
+        
+        for linha in linhas_itens:
+            # Seletores comuns para as colunas de um item:
+            colunas = linha.find_elements(By.TAG_NAME, "td")
             
-            item['data_venda'] = dados_nota['data_venda']
-            item['hora_venda'] = dados_nota['hora_venda']
-            item['forma_pagamento'] = dados_nota['forma_pagamento']
-            item['valor_total_nota'] = dados_nota['valor_total']
+            if len(colunas) < 4:
+                continue # Pula linhas inválidas
             
+            # ATENÇÃO: OS ÍNDICES DE COLUNA DEVEM SER VERIFICADOS NO SEU SITE
+            
+            item = {
+                'descricao_produto': colunas[0].text.strip(),
+                'quantidade': limpar_valor(colunas[1].text),
+                'unidade': colunas[2].text.strip(),
+                'preco_unitario': limpar_valor(colunas[3].text),
+                'total_item': limpar_valor(colunas[4].text)
+            }
             lista_itens.append(item)
+            
+        print(f"SUCESSO: Raspagem concluída. {len(lista_itens)} itens extraídos.")
 
-        # 3. Limpeza final dos dados gerais
-        # Remove chaves do dados_nota que não serão salvas no CSV de notas
-        dados_nota.pop('valor_total_nota', None) 
-        dados_nota.pop('data_venda', None) 
-        dados_nota.pop('hora_venda', None) 
-        dados_nota.pop('forma_pagamento', None) 
-        dados_nota['valor_total'] = dados_nota.get('valor_total', 0.0)
-        
+        # Adiciona a data de hoje à nota (para fins de auditoria)
+        dados_nota['data_extracao'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
         return dados_nota, lista_itens
 
     except Exception as e:
-        print(f"Erro no scraping da URL {url_nfce}: {e}")
+        print(f"ERRO DE SCRAPING GERAL: {e}")
+        # Salva screenshot para debug
+        if driver:
+             driver.save_screenshot("erro_scraper_final.png")
+             print("Screenshot 'erro_scraper_final.png' salvo.")
         return None, None
+        
     finally:
+        # Garante que o navegador seja fechado
         if driver:
             driver.quit()
+
+# --- Exemplo de Teste ---
+if __name__ == '__main__':
+    # Use uma URL de teste REAL que você verificou ser acessível
+    TEST_URL = "http://nfe.sefaz.go.gov.br/nfeweb/sites/nfce/danfeNFCe?p=52250339346861034147651070004999491107141815|2|1|1|DF46C0CAD32EF01BE6B47848D0D7BD145878E215"
+    print("--- INICIANDO TESTE DO SCRAPER NFC-e ---")
+    nota, itens = raspar_dados_nfce(TEST_URL)
+    
+    if nota:
+        print("\n[SUCESSO] Dados da Nota:")
+        for k, v in nota.items():
+            print(f"  {k}: {v}")
+        
+        print("\n[SUCESSO] Detalhes dos Itens (5 primeiros):")
+        for item in itens[:5]:
+            print(f"  - {item['descricao_produto']} | Qtd: {item['quantidade']} | Total: {item['total_item']}")
+    else:
+        print("\n[FALHA] Não foi possível extrair dados da NFC-e.")

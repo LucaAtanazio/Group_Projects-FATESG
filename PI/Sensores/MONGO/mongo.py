@@ -31,14 +31,17 @@ def salvar_dados():
     try:
         dados = request.get_json()
 
-        campos = ["temperatura", "umidade_ar", "mq3_raw", "mq3_tensao"]
+        # CAMPOS OBRIGATÓRIOS (agora incluindo 'fruta')
+        campos = ["temperatura", "umidade_ar", "mq3_raw", "mq3_tensao", "fruta"]
 
         for c in campos:
             if c not in dados:
                 return jsonify({"erro": f"Campo '{c}' ausente no JSON"}), 400
 
+        # Armazenar o timestamp
         dados["dataRegistro"] = datetime.now()
 
+        # Inserir no Mongo
         resultado = colecao.insert_one(dados)
 
         return jsonify({
@@ -50,9 +53,8 @@ def salvar_dados():
         return jsonify({"erro": str(e)}), 500
 
 
-
 # ================================
 # INICIAR O SERVIDOR
 # ================================
 if __name__ == "__main__":
-    app.run(host="172.31.3.10", port=8080, debug=True)
+    app.run(host="10.144.28.233", port=8080, debug=True)
